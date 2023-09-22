@@ -7,12 +7,16 @@ const Login = (props) => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  const goMenu = () => {
-    props.navigation.navigate('Menu');
+  const goDrawerNavigator = () => {
+    props.navigation.navigate('DrawerNavigator');
   }
 
   const goRecuperarSenha = () => {
     props.navigation.navigate('RecuperarSenha');
+  }
+
+  const goCriarConta = () => {
+    props.navigation.navigate('CriarConta');
   }
 
   return (
@@ -23,17 +27,17 @@ const Login = (props) => {
 
       <View>
         <Text style={styles.Text}>E-mail</Text>
-        <TextInput style={styles.TextInput} value={email} onChangeText={setEmail} label="exemplo@gmail.com"/>
+        <TextInput style={styles.TextInput} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="exemplo@gmail.com"/>
         <Text style={styles.Text}>Senha</Text>
-        <TextInput style={styles.TextInput} value={senha} onChangeText={setSenha} label="*********"/>
+        <TextInput style={styles.TextInput} value={senha} onChangeText={setSenha} placeholder="*********"/>
 
-        <TouchableOpacity style={styles.Button} onPress={goMenu}>
+        <TouchableOpacity style={styles.Button} onPress={goDrawerNavigator}>
           <Text style={styles.TextButton}>Entrar</Text>
         </TouchableOpacity>
       </View>
 
       <View>
-        <TouchableOpacity style={styles.CriarButton} onPress={goMenu}>
+        <TouchableOpacity style={styles.CriarButton} onPress={goCriarConta}>
           <Text style={styles.TextButton}>Criar minha conta</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.RecuperarButton} onPress={goRecuperarSenha}>
@@ -49,36 +53,40 @@ const styles = StyleSheet.create({
       backgroundColor: '#372775',
       flex: 1,
       justifyContent: 'flex-start',
-      alignItems: 'center',
-      fontFamily: 'R.font.averia libre'
+      alignItems: 'center'
     },
     Button: {
       backgroundColor: '#37BD6D',
       width: 550,
-      height: 30,
+      height: 35,
       borderRadius: 1,
       justifyContent: 'center'
     },
     TextInput: {
       width: 550,
       height: 40,
-      marginBottom: 10
+      marginBottom: 10,
+      fontFamily: 'AveriaLibre-Regular'
     },
     TextTitulo: {
       width: 400,
-      height: 70,
-      fontSize: 45,
-      color: 'white'
+      height: 60,
+      fontSize: 35,
+      color: 'white',
+      textAlign: 'center',
+      fontFamily: 'AveriaLibre-Regular'
     },
     Text: {
       color: 'white',
       fontSize: 16,
-      textAlign: 'left'
+      textAlign: 'left',
+      fontFamily: 'AveriaLibre-Regular'
     },
     TextButton: {
       textAlign: 'center', 
       color: 'white', 
-      fontSize: 17
+      fontSize: 17,
+      fontFamily: 'AveriaLibre-Regular'
     },
     CriarButton: {
       backgroundColor: '#419ED7',
@@ -86,7 +94,7 @@ const styles = StyleSheet.create({
       height: 25,
       borderRadius: 1,
       justifyContent: 'center',
-      marginTop: 22
+      marginTop: 35
     },
     RecuperarButton: {
       backgroundColor: '#B0CCDE',

@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text } from 'react-native';
 
-const TelaPrincipal = () => {
+const Home = () => {
 
   return (
     <View style={styles.View}>
@@ -14,4 +14,5 @@ const styles = StyleSheet.create({
       flex: 1
     }
 })
-export default TelaPrincipal;
+
+export default Home;

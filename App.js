@@ -8,7 +8,7 @@ import AgradecimentoParticipacao from './src/screens/AgradecimentoParticipacao';
 import Relatorio from './src/screens/Relatorio';
 import Login from './src/screens/Login';
 import DrawerNavigator from './src/screens/DrawerNavigator';
-import TelaPrincipal from './src/screens/TelaPrincipal';
+import Home from './src/screens/Home';
 import RecuperarSenha from './src/screens/RecuperarSenha';
 import CriarConta from './src/screens/CriarConta';
 
@@ -25,7 +25,7 @@ const App = () => {
         <Stack.Screen name="AgradecimentoParticipacao" component={AgradecimentoParticipacao} />
         <Stack.Screen name="Relatorio" component={Relatorio} options={{headerShown: true, headerTintColor: '#573FBA', headerTitle: 'Relatorio'}}/>
         <Stack.Screen name="DrawerNavigator" component={DrawerNavigator} />
-        <Stack.Screen name="TelaPrincipal" component={TelaPrincipal}/>
+        <Stack.Screen name="Home" component={Home}/>
         <Stack.Screen options={{headerShown: true, headerTintColor: '#573FBA', headerTitle: 'Recuperação de senha'}} name="RecuperarSenha" component={RecuperarSenha}/>
         <Stack.Screen options={{headerShown: true, headerTintColor: '#573FBA', headerTitle: 'Nova Conta'}} name="CriarConta" component={CriarConta}/>
       </Stack.Navigator>

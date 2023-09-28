@@ -4,6 +4,7 @@ const Home = () => {
 
   return (
     <View style={styles.View}>
+      <Text>Home</Text>
     </View>
   );
 };

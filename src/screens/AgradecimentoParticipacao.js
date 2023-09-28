@@ -4,12 +4,12 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 const AgradecimentoParticipacao = (props) => {
     
     const goLogin = () => {
-        props.navigation.navigate('Login')
+        props.navigation.navigate('Home')
       }
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            props.navigation.navigate('Login')
+            props.navigation.navigate('Home')
         }, 3000)
         
         return () => clearTimeout(timer)

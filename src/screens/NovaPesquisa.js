@@ -1,51 +1,28 @@
 import { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image, Modal, Alert, Pressable } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/Feather';
 
-const ModificarPesquisa = (props) => {
+const NovaPesquisa = (props) => {
   const [nome, setNome] = useState('');
   const [data, setData] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
   
 
   return (
-    
-    
     <View style={styles.View}>
-
-      <View style={{flex: 1, marginTop: 30}}>
-        <Modal transparent={true} animationType="slide" visible={modalVisible} onRequestClose={() => {setModalVisible(!modalVisible);}}>
-
-            <View style={{backgroundColor:'#000000aa', flex:1 }}>
-                <View style={styles.ViewModal}>
-                    <Text style={styles.TextModal}>Tem certeza de apagar essa pesquisa?</Text>
-
-                    <View style={styles.View3}>
-                        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}
-                         style={styles.ButtonModal1}>
-                             <Text style={styles.TextButton}>SIM</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={styles.ButtonModal2}>
-                            <Text style={styles.TextButton}>CANCELAR</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </View>
-        </Modal>
-      
-      </View>
-
       <View>
         <View>
         <Text style={styles.Text}>Nome</Text>
         <TextInput style={styles.TextInput2} value={nome} onChangeText={setNome}/>
-    
+        <Text style={styles.TextRed}>Preencha no nome da pesquisa</Text>
         </View>
 
+
         <Text style={styles.Text}>Data</Text>
+        
         <View style={styles.sectionStyle}>
+
         <TextInput style={styles.TextInput}
+          placeholder="Insira o termo de busca..." 
           underlineColorAndroid="transparent" 
           value={data} onChangeText={setData}
         /> 
@@ -54,7 +31,7 @@ const ModificarPesquisa = (props) => {
           style={styles.imageStyle} 
         /> 
       </View>
-
+      <Text style={styles.TextRed}>Preencha a data</Text>
       <Text style={styles.Text}>Imagem</Text>
       <View style={styles.View2}>
 
@@ -63,53 +40,19 @@ const ModificarPesquisa = (props) => {
         </TouchableOpacity>
       </View>
 
-        <View style={styles.View3}>
+        <View>
         <TouchableOpacity style={styles.Button}>
-          <Text style={styles.TextButton}>SALVAR</Text>
+          <Text style={styles.TextButton}>CADASTRAR</Text>
         </TouchableOpacity>
+        </View>
 
-        <View style={styles.View4}>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Icon name='trash-2'  size={30} style={styles.Icon}/>
-        <Text style={styles.TextApagar}>Apagar</Text>
-        </TouchableOpacity>
-        </View>
-        </View>
-        
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    ViewModal: {
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        backgroundColor:'#372775',
-        margin:50,
-        padding:40,
-    },
-    TextApagar: {
-        color: 'white',
-    },
-    TextModal: {
-        margin: 10,
-        color: 'white',
-        fontSize: 20,
-        textAlign: 'left',
-        fontFamily: 'AveriaLibre-Regular'
-    },
-    View3 : {
-        flexDirection: 'row', 
-    },
-    View4 : {
-       marginLeft: 40,
-       marginBottom: 30,
-    },
-    Icon: {
-        color: 'white',
-        marginLeft: 8,
-    },
+  
     sectionStyle: {
         flexDirection: 'row', 
         justifyContent: 'center', 
@@ -124,6 +67,7 @@ const styles = StyleSheet.create({
         padding: 15, 
         margin: 10, 
         marginLeft: 0,
+        
         height: 20, 
         width: 20, 
         resizeMode: 'stretch', 
@@ -143,31 +87,11 @@ const styles = StyleSheet.create({
       },
       Button: {
         backgroundColor: '#37BD6D',
-        width: 500,
+        width: 550,
         height: 40,
         margin: 10,
         marginTop: 0,
-        marginBottom: 0,
-        borderRadius: 1,
-        justifyContent: 'center'
-      },
-      ButtonModal1: { 
-        backgroundColor: '#fa8585',
-        width: 200,
-        height: 40,
-        margin: 10,
-        marginTop: 0,
-        marginBottom: 0,
-        borderRadius: 1,
-        justifyContent: 'center'
-      },
-      ButtonModal2: { 
-        backgroundColor: '#3d94c4',
-        width: 200,
-        height: 40,
-        margin: 10,
-        marginTop: 0,
-        marginBottom: 0,
+        marginBottom: 10,
         borderRadius: 1,
         justifyContent: 'center'
       },
@@ -187,7 +111,7 @@ const styles = StyleSheet.create({
         fontFamily: 'AveriaLibre-Regular',
       },
       TextInput: {
-        width: 560,
+        width: 500,
         height: 38,
         fontFamily: 'AveriaLibre-Regular'
       },
@@ -195,7 +119,7 @@ const styles = StyleSheet.create({
         margin: 10, 
         marginTop: 0,
         marginBottom: 0,
-        width: 600,
+        width: 550,
         height: 38,
         fontFamily: 'AveriaLibre-Regular'
       },
@@ -232,4 +156,4 @@ const styles = StyleSheet.create({
       },
 });
 
-export default ModificarPesquisa;
+export default NovaPesquisa;

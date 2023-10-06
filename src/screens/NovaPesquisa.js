@@ -1,13 +1,19 @@
 import { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import { TextInput } from 'react-native-paper';
+import DatePicker from 'react-native-date-picker';
 
 const NovaPesquisa = () => {
   const [nome, setNome] = useState('');
-  const [data, setData] = useState('');
+  const [data, setData] = useState(new Date());
+  const [open, setOpen] = useState(false);
   
+  const getDateString = (date) =>{
+    return date.getDate().toString() + '/' + ((date.getMonth()+1).toString()) + '/' + date.getFullYear().toString() // nao estava coletando o mes certo sem o +1
+}
 
   return (
+
     <View style={styles.View}>
       <View>
         <View>
@@ -19,17 +25,27 @@ const NovaPesquisa = () => {
 
         <Text style={styles.Text}>Data</Text>
         
-        <View style={styles.sectionStyle}>
+        <TouchableOpacity style={styles.sectionStyle} onPress={() => setOpen(true)}>
+          <DatePicker modal open={open} date={data} mode = "date" locale = "pt-BR" onConfirm={(data) => { 
+            setOpen(false)
+            setData(data)
+          }}
+          onCancel={() => {
+            setOpen(false)
+          }}
+          />
+          <Text style={styles.textData}>{getDateString(data)}</Text>
+            <Image 
+              source={require('../../assets/images/calendario.png')} 
+              style={styles.imageStyle} 
+            /> 
+       </TouchableOpacity>
 
-        <TextInput style={styles.TextInput}
-          underlineColorAndroid="transparent" 
-          value={data} onChangeText={setData}
-        /> 
-        <Image 
-          source={require('../../assets/images/calendario.png')} 
-          style={styles.imageStyle} 
-        /> 
-      </View>
+
+
+
+
+
       <Text style={styles.TextRed}>Preencha a data</Text>
       <Text style={styles.Text}>Imagem</Text>
       <View style={styles.View2}>
@@ -54,7 +70,7 @@ const styles = StyleSheet.create({
   
     sectionStyle: {
         flexDirection: 'row', 
-        justifyContent: 'center', 
+        justifyContent: 'space-between', 
         alignItems: 'center', 
         backgroundColor: '#e8e4ec', 
         height: 40,  
@@ -65,12 +81,11 @@ const styles = StyleSheet.create({
       imageStyle: {
         padding: 15, 
         margin: 10, 
-        marginLeft: 0,
-        
+        marginLeft: 0,      
         height: 20, 
         width: 20, 
         resizeMode: 'stretch', 
-        alignItems: 'center', 
+
       },
       View: {
         backgroundColor: '#372775',
@@ -118,6 +133,7 @@ const styles = StyleSheet.create({
         margin: 10, 
         marginTop: 0,
         marginBottom: 0,
+        fontSize: 20,
         width: 550,
         height: 38,
         fontFamily: 'AveriaLibre-Regular'
@@ -135,7 +151,7 @@ const styles = StyleSheet.create({
         marginTop:5,
         marginLeft: 10,
         color: 'white',
-        fontSize: 16,
+        fontSize: 20,
         textAlign: 'left',
         fontFamily: 'AveriaLibre-Regular'
       },
@@ -153,6 +169,12 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontFamily: 'AveriaLibre-Regular'
       },
+      textData: {
+        textAlign: 'center', 
+        margin: 10,
+        fontSize: 20,
+        fontFamily: 'AveriaLibre-Regular'
+      }
 });
 
 export default NovaPesquisa;

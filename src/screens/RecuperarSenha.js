@@ -7,6 +7,7 @@ const RecuperarSenha = () => {
             <View>
                 <Text style={styles.Text}>E-mail</Text>
                 <TextInput style={styles.TextInput} keyboardType="email-address" placeholder="exemplo@gmail.com"/>
+                <Text style={styles.TextRed}>E-mail parece ser inválido</Text>
             </View>
 
             <TouchableOpacity style={styles.Button}><Text style={styles.TextButton}>RECUPERAR</Text></TouchableOpacity>
@@ -18,7 +19,14 @@ const styles = StyleSheet.create({
     TextInput: {
         width: 550,
         height: 40,
-        marginBottom: 10,
+        marginBottom: 5,
+        fontFamily: 'AveriaLibre-Regular'
+    },
+    TextRed: {
+        margin: 0,
+        color: '#F57A75',
+        fontSize: 13,
+        textAlign: 'left',
         fontFamily: 'AveriaLibre-Regular'
     },
     View: {

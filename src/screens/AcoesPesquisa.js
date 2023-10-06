@@ -1,19 +1,22 @@
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native'
 
 
-const AcoesPesquisa = (props) => {
+const AcoesPesquisa = ({route}) => {
+    const { nome, data, imagem } = route.params;
+    const navigation = useNavigation()
 
     const goRelatorio = () => {
-        props.navigation.navigate('Relatorio')
-      }
+        navigation.navigate('Relatorio')
+    }
     const goModificar = () => {
-        props.navigation.navigate('ModificarPesquisa')
-      }
+        navigation.navigate('ModificarPesquisa', {nome, data, imagem})
+    }
     
     const goColeta = () => {
-        props.navigation.navigate('Coleta')
-      }
+        navigation.navigate('Coleta')
+    }
 
     return (
         <View style={styles.View}>
@@ -24,11 +27,11 @@ const AcoesPesquisa = (props) => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.Button} onPress={goColeta}>
                     <Icon name='checkbox-multiple-outline' size={70} color='white'/>
-                    <Text style={styles.TextoButton}>Coleta dados</Text>
+                    <Text style={styles.TextoButton}>Coletar dados</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.Button} onPress={goRelatorio}>
                     <Icon name='chart-donut' size={70} color='white'/>
-                    <Text style={styles.TextoButton}>Relatorio</Text>
+                    <Text style={styles.TextoButton}>Relatório</Text>
                 </TouchableOpacity> 
             </View>
         </View>

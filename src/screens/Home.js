@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/Octicons';
+import CardPesquisa from '../components/CardPesquisa.js';
 
 const Home = (props) => {
 
@@ -9,36 +11,26 @@ const Home = (props) => {
   const goNovaPesquisa = () => {
     props.navigation.navigate('NovaPesquisa');
   }
-  const goAcoesPesquisa = () => {
-    props.navigation.navigate('AcoesPesquisa');
-  }
 
   return (
     <View style={styles.View}>
-      
-      
-      <View style={styles.sectionStyle}>
-        <Image 
-          source={require('../../assets/images/lupa.png')} 
-          style={styles.imageStyle} 
-        /> 
-        <TextInput style={styles.TextInput}
-          placeholder="Insira o termo de busca..." 
-          underlineColorAndroid="transparent" 
-          value={txtPesquisa} onChangeText={setPesquisa}
-        /> 
+
+
+      <View style={styles.SearchView}>
+        <Icon style={{marginLeft: 10}} name='search' color='grey' size={22}/>
+        <TextInput style={styles.TextInput} value={txtPesquisa} onChangeText={setPesquisa} 
+        placeholder="Insira o termo de busca..."/>
       </View>
 
-      <View>
-      <TouchableOpacity onPress={goAcoesPesquisa}>
-        <Text style={{backgroundColor: 'white'}} >teste de pesquisa</Text>
-      </TouchableOpacity >
-        {/*card com imagem;/ nome da pesquisa
-        https://www.youtube.com/watch?v=iHomYGbYIcQ
-  https://www.youtube.com/watch?v=pK20wQO-mEA*/}
+      <View style={styles.ListaCard}>
+        <CardPesquisa
+          nome="Carnaval 2024"
+          data="16/02/2024"
+          imagem={require('../../assets/images/vector.png')}
+        />
       </View>
 
-      <View>
+      <View style={{marginTop: 10}}>
       <TouchableOpacity style={styles.Button} onPress={goNovaPesquisa}>
         <Text style={styles.TextButton} >NOVA PESQUISA</Text>
       </TouchableOpacity >
@@ -48,30 +40,28 @@ const Home = (props) => {
 };
 
 const styles = StyleSheet.create({
-
-  sectionStyle: {
-    flexDirection: 'row', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    backgroundColor: '#e8e4ec', 
-    height: 40,  
-    margin:10,
-
+  ListaCard: {
+    height: 160,
+    width: 160
   },
-  imageStyle: {
-    padding: 15, 
-    margin: 10, 
-    marginRight: 0,
-    height: 20, 
-    width: 20, 
-    resizeMode: 'stretch', 
+  SearchView: {
+    margin: 20, 
+    flexDirection: 'row', 
     alignItems: 'center', 
+    backgroundColor: 'white'
+  },
+  TextInput: {
+    width: 650,
+    height: 25,
+    flex: 1,
+    fontFamily: 'AveriaLibre-Regular'
   },
   View: {
     backgroundColor: '#372775',
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
+    fontFamily: 'AveriaLibre-Regular'
   },
   Button: {
     backgroundColor: '#37BD6D',
@@ -84,7 +74,7 @@ const styles = StyleSheet.create({
   TextInput: {
     width: 660,
     height: 38,
-    fontFamily: 'AveriaLibre-Regular'
+    backgroundColor: 'white'
   },
   TextTitulo: {
     width: 400,

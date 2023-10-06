@@ -30,6 +30,7 @@ const Login = (props) => {
         <TextInput style={styles.TextInput} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="exemplo@gmail.com"/>
         <Text style={styles.Text}>Senha</Text>
         <TextInput style={styles.TextInput} value={senha} onChangeText={setSenha} placeholder="*********"/>
+        <Text style={styles.TextRed}>E-mail e/ou senha inválidos</Text>
 
         <TouchableOpacity style={styles.Button} onPress={goDrawerNavigator}>
           <Text style={styles.TextButton}>Entrar</Text>
@@ -55,17 +56,24 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-start',
       alignItems: 'center'
     },
+    TextRed: {
+      margin: 0,
+      color: '#F57A75',
+      fontSize: 13,
+      textAlign: 'left',
+      fontFamily: 'AveriaLibre-Regular'
+    },
     Button: {
       backgroundColor: '#37BD6D',
       width: 550,
       height: 35,
       borderRadius: 1,
-      justifyContent: 'center'
+      justifyContent: 'center',
+      marginTop: 14
     },
     TextInput: {
       width: 550,
       height: 40,
-      marginBottom: 10,
       fontFamily: 'AveriaLibre-Regular'
     },
     TextTitulo: {
@@ -80,7 +88,8 @@ const styles = StyleSheet.create({
       color: 'white',
       fontSize: 16,
       textAlign: 'left',
-      fontFamily: 'AveriaLibre-Regular'
+      fontFamily: 'AveriaLibre-Regular',
+      marginTop: 8
     },
     TextButton: {
       textAlign: 'center', 
@@ -94,7 +103,7 @@ const styles = StyleSheet.create({
       height: 25,
       borderRadius: 1,
       justifyContent: 'center',
-      marginTop: 35
+      marginTop: 17
     },
     RecuperarButton: {
       backgroundColor: '#B0CCDE',

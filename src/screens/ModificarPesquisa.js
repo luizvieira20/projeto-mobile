@@ -1,28 +1,32 @@
 import { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Image, Modal, Alert, Pressable } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, Image, Modal } from 'react-native';
 import { TextInput } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
-const ModificarPesquisa = (props) => {
-  const [nome, setNome] = useState('');
-  const [data, setData] = useState('');
+const ModificarPesquisa = ({route}) => {
+  const { nome, data, imagem } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
-  
+  const navigation = useNavigation();
 
+  const goHome = () => {
+    setModalVisible(!modalVisible)
+    navigation.navigate('DrawerNavigator');
+  }
+  
   return (
-    
-    
+     
     <View style={styles.View}>
 
       <View style={{flex: 1, marginTop: 30}}>
         <Modal transparent={true} animationType="slide" visible={modalVisible} onRequestClose={() => {setModalVisible(!modalVisible);}}>
 
-            <View style={{backgroundColor:'#000000aa', flex:1 }}>
+            <View style={{backgroundColor:'#000000aa', flex:1, justifyContent: 'center'}}>
                 <View style={styles.ViewModal}>
                     <Text style={styles.TextModal}>Tem certeza de apagar essa pesquisa?</Text>
 
                     <View style={styles.View3}>
-                        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}
+                        <TouchableOpacity onPress={goHome}
                          style={styles.ButtonModal1}>
                              <Text style={styles.TextButton}>SIM</Text>
                         </TouchableOpacity>
@@ -39,7 +43,7 @@ const ModificarPesquisa = (props) => {
       <View>
         <View>
         <Text style={styles.Text}>Nome</Text>
-        <TextInput style={styles.TextInput2} value={nome} onChangeText={setNome}/>
+        <TextInput style={styles.TextInput2} value={nome}/>
     
         </View>
 
@@ -47,7 +51,7 @@ const ModificarPesquisa = (props) => {
         <View style={styles.sectionStyle}>
         <TextInput style={styles.TextInput}
           underlineColorAndroid="transparent" 
-          value={data} onChangeText={setData}
+          value={data}
         /> 
         <Image 
           source={require('../../assets/images/calendario.png')} 
@@ -59,7 +63,10 @@ const ModificarPesquisa = (props) => {
       <View style={styles.View2}>
 
       <TouchableOpacity style={styles.ButtonImg}>
-          <Text style={styles.TextButtonImg}>Câmera/Galeria de Imagens</Text>
+      <Image 
+          source={imagem}
+          style={styles.imageStyle} 
+        /> 
         </TouchableOpacity>
       </View>
 
@@ -179,6 +186,7 @@ const styles = StyleSheet.create({
         marginTop: 0,
         marginBottom: 0,
         justifyContent: 'center',
+        alignItems: 'center'
       },
       TextButtonImg: {
         textAlign: 'center', 

@@ -2,25 +2,17 @@ import { useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 const AgradecimentoParticipacao = (props) => {
-    
-    const goLogin = () => {
-        props.navigation.navigate('Home')
-      }
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            props.navigation.navigate('Home')
+            props.navigation.navigate('Coleta')
         }, 3000)
         
         return () => clearTimeout(timer)
     }, [props])
 
     return (
-        <View style={styles.View}>
-            <View style = {{flex: 1, alignItems: 'flex-end'}}>
-                <TouchableOpacity style={styles.Voltar} onPress={goLogin}>
-                </TouchableOpacity> 
-            </View>    
+        <View style={styles.View}>  
             <View style={styles.Agradecer}>
                 <Text style={styles.Text}>Obrigado por participar da pesquisa!</Text>
                 <Text style={styles.Text}>Aguardamos você no proximo ano!</Text>
@@ -44,10 +36,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: 'white',
         margin: 15
-    },
-    Voltar: {
-        width: 50,
-        height: 50,
     }
 });
 

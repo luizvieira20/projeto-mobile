@@ -1,12 +1,11 @@
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-
 const Coleta = (props) => {
 
-    const goLogin = () => {
-        props.navigation.navigate('Login')
-      }
+    const goVoltar = () => {
+        props.navigation.pop()
+    }
 
     const goAgradecimento = () => {
         props.navigation.navigate('AgradecimentoParticipacao')
@@ -15,7 +14,7 @@ const Coleta = (props) => {
     return (
         <View style={styles.View}>
             <View style = {{alignItems: 'flex-end'}}>
-                <TouchableOpacity style={styles.Voltar} onPress={goLogin}>
+                <TouchableOpacity style={styles.Voltar} onPress={goVoltar}>
                 </TouchableOpacity> 
             </View>    
             <View style={styles.ViewTexto}>

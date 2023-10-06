@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
-const NovaPesquisa = (props) => {
+const NovaPesquisa = () => {
   const [nome, setNome] = useState('');
   const [data, setData] = useState('');
   
@@ -22,7 +22,6 @@ const NovaPesquisa = (props) => {
         <View style={styles.sectionStyle}>
 
         <TextInput style={styles.TextInput}
-          placeholder="Insira o termo de busca..." 
           underlineColorAndroid="transparent" 
           value={data} onChangeText={setData}
         /> 

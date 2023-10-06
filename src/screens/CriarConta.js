@@ -15,7 +15,8 @@ const CriarConta = (props) => {
         <Text style={styles.Text}>Senha</Text>
         <TextInput style={styles.TextInput} value={senha} onChangeText={setSenha} placeholder="*********"/>
         <Text style={styles.Text}>Repetir senha</Text>
-        <TextInput style={styles.TextInput} value={confSenha} onChangeText={setConfSenha} placeholder="*********"/>
+        <TextInput style={styles.TextInput} value={confSenha} onChangeText={setConfSenha}/>
+        <Text style={styles.TextRed}>O campo repetir senha difere da senha</Text>
 
         <TouchableOpacity style={styles.Button}>
           <Text style={styles.TextButton}>Cadastrar</Text>
@@ -32,6 +33,13 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center'
     },
+    TextRed: {
+      margin: 0,
+      color: '#F57A75',
+      fontSize: 13,
+      textAlign: 'left',
+      fontFamily: 'AveriaLibre-Regular'
+    },
     Button: {
       backgroundColor: '#37BD6D',
       width: 550,
@@ -43,14 +51,14 @@ const styles = StyleSheet.create({
     TextInput: {
       width: 550,
       height: 35,
-      marginBottom: 10,
       fontFamily: 'AveriaLibre-Regular'
     },
     Text: {
       color: 'white',
       fontSize: 16,
       textAlign: 'left',
-      fontFamily: 'AveriaLibre-Regular'
+      fontFamily: 'AveriaLibre-Regular',
+      marginTop: 10
     },
     TextButton: {
       textAlign: 'center', 

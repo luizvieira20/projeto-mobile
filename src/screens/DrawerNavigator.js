@@ -10,17 +10,14 @@ const DrawerNavigator = (props) => {
   const goSair = () => {
     props.navigation.navigate('Login');
   }
-  const goHome = () => {
-    props.navigation.navigate('DrawerNavigator');
-  }
 
-  const CustomDrawerContent = () => {
+  const CustomDrawerContent = (props) => {
     return (
       <View style={styles.Tela}>
         <View style={styles.Drawer}>
           <Text style={styles.Text}>usuario@dominio.com</Text>
           <View style={styles.Linha}></View>
-          <TouchableOpacity style={styles.BotaoPesquisa} onPress={goHome}><Icon name="file-text-o" size={25} color={'white'}/><Text style={styles.TextBotao}>Pesquisas</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.BotaoPesquisa} onPress={() => props.navigation.closeDrawer()}><Icon name="file-text-o" size={25} color={'white'}/><Text style={styles.TextBotao}>Pesquisas</Text></TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.BotaoSair} onPress={goSair}><Icon name="sign-out" size={28} color={'white'}/><Text style={styles.TextBotao}>Sair</Text></TouchableOpacity>
       </View>

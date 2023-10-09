@@ -6,10 +6,10 @@ import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-date-picker';
 
 const ModificarPesquisa = ({route}) => {
-  const { nome, imagem } = route.params;
+  const {nome, imagem} = route.params;
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
-  const [date, setData] = useState(new Date());
+  const [date, setData] = useState(new Date('2024-02-16 01:01:01'));
   const [open, setOpen] = useState(false);
 
   const goHome = () => {
@@ -56,7 +56,7 @@ const ModificarPesquisa = ({route}) => {
         <Text style={styles.Text}>Data</Text>
 
         <TouchableOpacity style={styles.sectionStyle} onPress={() => setOpen(true)}>
-          <DatePicker modal open={open} date={date} mode = "date" locale = "pt-BR" onConfirm={(data) => { 
+          <DatePicker modal open={open} date={date} mode ="date" locale = "pt-BR" onConfirm={(data) => { 
             setOpen(false)
             setData(data)
           }}

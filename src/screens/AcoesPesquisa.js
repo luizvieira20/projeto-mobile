@@ -4,14 +4,14 @@ import { useNavigation } from '@react-navigation/native'
 
 
 const AcoesPesquisa = ({route}) => {
-    const { nome, data, imagem } = route.params;
+    const { nome, imagem } = route.params;
     const navigation = useNavigation()
 
     const goRelatorio = () => {
         navigation.navigate('Relatorio')
     }
     const goModificar = () => {
-        navigation.navigate('ModificarPesquisa', {nome, data, imagem})
+        navigation.navigate('ModificarPesquisa', {nome, imagem})
     }
     
     const goColeta = () => {

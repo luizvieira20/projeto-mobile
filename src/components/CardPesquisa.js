@@ -6,7 +6,7 @@ const CardPesquisa = ({ nome, data, imagem }) => {
   const navigation = useNavigation();
 
   const goAcoesPesquisa = () => {
-    navigation.navigate('AcoesPesquisa', {nome, data, imagem});
+    navigation.navigate('AcoesPesquisa', {nome, imagem});
   };
 
   return (

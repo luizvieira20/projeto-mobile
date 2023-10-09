@@ -37,7 +37,7 @@ const Login = (props) => {
         </TouchableOpacity>
       </View>
 
-      <View>
+      <View style = {{marginTop: -10}}>
         <TouchableOpacity style={styles.CriarButton} onPress={goCriarConta}>
           <Text style={styles.TextButton}>Criar minha conta</Text>
         </TouchableOpacity>

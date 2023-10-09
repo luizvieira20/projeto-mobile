@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
       Button: {
         backgroundColor: '#37BD6D',
         width: 550,
-        height: 40,
+        height: 25,
         margin: 10,
         marginTop: 0,
         marginBottom: 10,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
       ButtonImg: {
         backgroundColor: '#e8e4ec',
         width: 300,
-        height: 60,
+        height: 45,
         borderRadius: 1,
         marginTop: 0,
         marginBottom: 0,
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
         fontFamily: 'AveriaLibre-Regular'
       },
       TextButton: {
-        textAlign: 'center', 
+        textAlign: 'center',
         color: 'white', 
         fontSize: 17,
         fontFamily: 'AveriaLibre-Regular'

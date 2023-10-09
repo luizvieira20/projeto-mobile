@@ -3,16 +3,22 @@ import { View, StyleSheet, Text, TouchableOpacity, Image, Modal } from 'react-na
 import { TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+import DatePicker from 'react-native-date-picker';
 
 const ModificarPesquisa = ({route}) => {
-  const { nome, data, imagem } = route.params;
+  const { nome, imagem } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+  const [date, setData] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
   const goHome = () => {
     setModalVisible(!modalVisible)
     navigation.navigate('DrawerNavigator');
   }
+  const getDateString = (date) =>{
+    return date.getDate().toString() + '/' + ((date.getMonth()+1).toString()) + '/' + date.getFullYear().toString() // nao estava coletando o mes certo sem o +1
+}
   
   return (
      
@@ -41,46 +47,52 @@ const ModificarPesquisa = ({route}) => {
       </View>
 
       <View>
-        <View>
+        <View style={ {marginTop: -30} }>
         <Text style={styles.Text}>Nome</Text>
         <TextInput style={styles.TextInput2} value={nome}/>
     
         </View>
 
         <Text style={styles.Text}>Data</Text>
-        <View style={styles.sectionStyle}>
-        <TextInput style={styles.TextInput}
-          underlineColorAndroid="transparent" 
-          value={data}
-        /> 
-        <Image 
-          source={require('../../assets/images/calendario.png')} 
-          style={styles.imageStyle} 
-        /> 
-      </View>
 
-      <Text style={styles.Text}>Imagem</Text>
-      <View style={styles.View2}>
-
-      <TouchableOpacity style={styles.ButtonImg}>
-      <Image 
-          source={imagem}
-          style={styles.imageStyle} 
-        /> 
+        <TouchableOpacity style={styles.sectionStyle} onPress={() => setOpen(true)}>
+          <DatePicker modal open={open} date={date} mode = "date" locale = "pt-BR" onConfirm={(data) => { 
+            setOpen(false)
+            setData(data)
+          }}
+          onCancel={() => {
+            setOpen(false)
+          }}
+          />
+          <Text style={styles.textData}>{getDateString(date)}</Text>
+          <Image 
+            source={require('../../assets/images/calendario.png')} 
+            style={styles.imageStyle} 
+          /> 
         </TouchableOpacity>
-      </View>
+
+        <Text style={styles.Text}>Imagem</Text>
+        <View style={styles.View2}>
+
+        <TouchableOpacity style={styles.ButtonImg}>
+        <Image 
+            source={imagem}
+            style={styles.imageStyle} 
+          /> 
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.View3}>
-        <TouchableOpacity style={styles.Button}>
-          <Text style={styles.TextButton}>SALVAR</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.Button}>
+            <Text style={styles.TextButton}>SALVAR</Text>
+          </TouchableOpacity>
 
-        <View style={styles.View4}>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Icon name='trash-2'  size={30} style={styles.Icon}/>
-        <Text style={styles.TextApagar}>Apagar</Text>
-        </TouchableOpacity>
-        </View>
+          <View style={styles.View4}>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <Icon name='trash-2'  size={30} style={styles.Icon}/>
+          <Text style={styles.TextApagar}>Apagar</Text>
+          </TouchableOpacity>
+          </View>
         </View>
         
       </View>
@@ -118,14 +130,15 @@ const styles = StyleSheet.create({
         marginLeft: 8,
     },
     sectionStyle: {
-        flexDirection: 'row', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        backgroundColor: '#e8e4ec', 
-        height: 40,  
-        margin:10,
-        marginTop: 0,
-        marginBottom: 0,
+      flexDirection: 'row', 
+      justifyContent: 'space-between', 
+      alignItems: 'center', 
+      backgroundColor: '#e8e4ec', 
+      height: 40,  
+      margin:10,
+      marginTop: 0,
+      marginBottom: 0,
+      width: 550,
       },
       imageStyle: {
         padding: 15, 
@@ -203,7 +216,8 @@ const styles = StyleSheet.create({
         margin: 10, 
         marginTop: 0,
         marginBottom: 0,
-        width: 600,
+        fontSize: 20,
+        width: 550,
         height: 38,
         fontFamily: 'AveriaLibre-Regular'
       },
@@ -236,6 +250,12 @@ const styles = StyleSheet.create({
         textAlign: 'center', 
         color: 'white', 
         fontSize: 17,
+        fontFamily: 'AveriaLibre-Regular'
+      },
+      textData: {
+        textAlign: 'center', 
+        margin: 10,
+        fontSize: 20,
         fontFamily: 'AveriaLibre-Regular'
       },
 });

@@ -2,13 +2,33 @@ import { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Octicons';
+import { auth_mod }  from '../firebase/config';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [texto, setTexto] = useState('');
 
-  const goDrawerNavigator = () => {
-    props.navigation.navigate('DrawerNavigator');
+  const autenticar = () => {
+    signInWithEmailAndPassword(auth_mod, email, senha)
+      .then((userLogged) => {
+        console.log("Usuário autenticado: "+ JSON.stringify(userLogged));
+        setTexto("");
+        setSenha("");
+        setEmail("");
+        props.navigation.navigate('DrawerNavigator');
+      })
+      .catch((error) => {
+        if(error.code === "auth/invalid-login-credentials" || error.code === "auth/invalid-email") setTexto("Erro. E-mail e/ou senha inválidos");
+        else if(error.code === "auth/too-many-requests") setTexto("Erro. Várias tentativas falhas. Tente novamente mais tarde");
+        console.log("Erro: "+error);
+      })
+  }
+
+  const validaDados = () => {
+    if (email.length === 0 || senha.length === 0) setTexto('Erro. Por favor, preencha todos os campos.');
+    else autenticar();
   }
 
   const goRecuperarSenha = () => {
@@ -29,10 +49,10 @@ const Login = (props) => {
         <Text style={styles.Text}>E-mail</Text>
         <TextInput style={styles.TextInput} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="exemplo@gmail.com"/>
         <Text style={styles.Text}>Senha</Text>
-        <TextInput style={styles.TextInput} value={senha} onChangeText={setSenha} placeholder="*********"/>
-        <Text style={styles.TextRed}>E-mail e/ou senha inválidos</Text>
+        <TextInput style={styles.TextInput} value={senha} onChangeText={setSenha} secureTextEntry={true} placeholder="******"/>
+        <Text style={styles.TextRed}>{texto}</Text>
 
-        <TouchableOpacity style={styles.Button} onPress={goDrawerNavigator}>
+        <TouchableOpacity style={styles.Button} onPress={validaDados}>
           <Text style={styles.TextButton}>Entrar</Text>
         </TouchableOpacity>
       </View>

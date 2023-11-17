@@ -2,15 +2,39 @@ import { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
+import { collection, addDoc } from "firebase/firestore";
+import { db } from '../firebase/config';
 
 const NovaPesquisa = () => {
   const [nome, setNome] = useState('');
   const [data, setData] = useState(new Date());
+  const [texto, setTexto] = useState('');
   const [open, setOpen] = useState(false);
+  const PesqCollection = collection(db, "Pesquisas");
   
   const getDateString = (date) =>{
-    return date.getDate().toString() + '/' + ((date.getMonth()+1).toString()) + '/' + date.getFullYear().toString() // nao estava coletando o mes certo sem o +1
-}
+    return date.getDate().toString() + '/' + ((date.getMonth()+1).toString()) + '/' + date.getFullYear().toString();
+  }
+
+  const addPesquisa = () => {
+    const docPesquisa = {
+      Nome: nome,
+      Data: data
+    }
+
+    addDoc(PesqCollection, docPesquisa)
+      .then((docRef) => {
+        console.log("Documento inserido com sucesso: "+ docRef.id)
+      })
+      .catch((error) => {
+        console.log("Erro: "+ error);
+      })
+  }
+
+  const validaDados = () => {
+    if(nome.length === 0) setTexto("Erro, digite o nome da pesquisa");
+    else addPesquisa();
+  }
 
   return (
 
@@ -19,14 +43,14 @@ const NovaPesquisa = () => {
         <View>
         <Text style={styles.Text}>Nome</Text>
         <TextInput style={styles.TextInput2} value={nome} onChangeText={setNome}/>
-        <Text style={styles.TextRed}>Preencha no nome da pesquisa</Text>
+        <Text style={styles.TextRed}>{texto}</Text>
         </View>
 
 
         <Text style={styles.Text}>Data</Text>
         
         <TouchableOpacity style={styles.sectionStyle} onPress={() => setOpen(true)}>
-          <DatePicker modal open={open} date={data} mode = "date" locale = "pt-BR" onConfirm={(data) => { 
+          <DatePicker modal title="Selecione a data: "open={open} date={data} mode="date" locale='pt-br' onConfirm={(data) => { 
             setOpen(false)
             setData(data)
           }}
@@ -41,12 +65,6 @@ const NovaPesquisa = () => {
             /> 
        </TouchableOpacity>
 
-
-
-
-
-
-      <Text style={styles.TextRed}>Preencha a data</Text>
       <Text style={styles.Text}>Imagem</Text>
       <View style={styles.View2}>
 
@@ -56,7 +74,7 @@ const NovaPesquisa = () => {
       </View>
 
         <View>
-        <TouchableOpacity style={styles.Button}>
+        <TouchableOpacity style={styles.Button} onPress={() => {validaDados()}}>
           <Text style={styles.TextButton}>CADASTRAR</Text>
         </TouchableOpacity>
         </View>
@@ -148,7 +166,7 @@ const styles = StyleSheet.create({
       },
       Text: {
         margin: 0,
-        marginTop:5,
+        marginTop: 10,
         marginLeft: 10,
         color: 'white',
         fontSize: 20,

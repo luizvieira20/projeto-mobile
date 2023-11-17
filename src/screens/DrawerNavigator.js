@@ -2,13 +2,22 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Home from './Home';
+import auth_mod from '../firebase/config';
+import { signOut } from 'firebase/auth';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = (props) => {
 
   const goSair = () => {
-    props.navigation.navigate('Login');
+    signOut(auth_mod)
+      .then(() => {
+        console.log("Desconectado com sucesso.")
+        props.navigation.navigate('Login');
+      })
+      .catch((error) => {
+        console.log("Erro ao sair: "+ error);
+      })
   }
 
   const CustomDrawerContent = (props) => {

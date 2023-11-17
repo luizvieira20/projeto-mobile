@@ -1,16 +1,35 @@
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useState } from 'react';
 import { TextInput } from 'react-native-paper';
+import auth_mod from '../firebase/config';
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 const RecuperarSenha = () => {
+    const [texto, setTexto] = useState('');
+    const [email, setEmail] = useState('');
+
+    const recoveryPassword = () => {
+        sendPasswordResetEmail(auth_mod, email)
+            .then(() => {
+                console.log("E-mail enviado com sucesso");
+                setEmail("");
+                setTexto("E-mail enviado com sucesso");
+            })
+            .catch((error) => {
+                console.log("Erro: "+error);
+                if(error.code === "auth/missing-email" || error.code === "auth/invalid-email") setTexto("Digite um e-mail válido");
+            })
+    }
+
     return (
         <View style={styles.View}>
             <View>
                 <Text style={styles.Text}>E-mail</Text>
-                <TextInput style={styles.TextInput} keyboardType="email-address" placeholder="exemplo@gmail.com"/>
-                <Text style={styles.TextRed}>E-mail parece ser inválido</Text>
+                <TextInput style={styles.TextInput} value={email} onChangeText={setEmail} keyboardType="email-address" placeholder="exemplo@gmail.com"/>
+                <Text style={styles.TextRed}>{texto}</Text>
             </View>
 
-            <TouchableOpacity style={styles.Button}><Text style={styles.TextButton}>RECUPERAR</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.Button} onPress={recoveryPassword}><Text style={styles.TextButton}>RECUPERAR</Text></TouchableOpacity>
         </View>
     )
 }

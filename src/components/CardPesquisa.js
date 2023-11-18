@@ -2,20 +2,20 @@ import { Card, Title, Paragraph} from 'react-native-paper';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 
-const CardPesquisa = ({ nome, data, imagem }) => {
+const CardPesquisa = ({ data }) => {
   const navigation = useNavigation();
 
   const goAcoesPesquisa = () => {
-    navigation.navigate('AcoesPesquisa', {nome, imagem});
+    navigation.navigate('AcoesPesquisa', {data});
   };
 
   return (
     <TouchableOpacity onPress={goAcoesPesquisa}>
     <Card style={styles.Card}>
-      <Card.Cover style={styles.CardImage} source={ imagem } />
+      <Card.Cover style={styles.CardImage} source={ data.imagem } />
       <Card.Content>
-        <Title style={styles.Title}>{nome}</Title>
-        <Paragraph style={{fontSize: 11, textAlign: 'center'}}>{data}</Paragraph>
+        <Title style={styles.Title}>{data.nome}</Title>
+        <Paragraph style={{fontSize: 11, textAlign: 'center'}}>{data.data}</Paragraph>
       </Card.Content>
     </Card>
     </TouchableOpacity>
@@ -28,6 +28,8 @@ const styles = StyleSheet.create({
     width: 160,
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: 7,
+    marginLeft: 16
   },
   CardImage: {
     height: 90,

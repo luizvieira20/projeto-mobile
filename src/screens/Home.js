@@ -1,20 +1,39 @@
-import { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Octicons';
 import CardPesquisa from '../components/CardPesquisa.js';
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { db } from '../firebase/config.js';
 
 const Home = (props) => {
-
   const [txtPesquisa, setPesquisa] = useState('')
+  const [listaPesquisa, setListaPesquisa] = useState([]);
+
+  const PesqCollection = collection(db, 'Pesquisas');
 
   const goNovaPesquisa = () => {
     props.navigation.navigate('NovaPesquisa');
   }
 
+  useEffect(() => {
+    const q = query(PesqCollection);
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+        const pesquisas = [];
+
+        snapshot.forEach((doc) => {
+          console.log(doc.data());
+          pesquisas.push(doc.data());
+        });
+        
+        setListaPesquisa(pesquisas);
+      })
+
+  }, []);
+
   return (
     <View style={styles.View}>
-
 
       <View style={styles.SearchView}>
         <Icon style={{marginLeft: 10}} name='search' color='grey' size={22}/>
@@ -23,11 +42,11 @@ const Home = (props) => {
       </View>
 
       <View style={styles.ListaCard}>
-        <CardPesquisa
-          nome="Carnaval 2024"
-          data="16/02/2024"
-          imagem={require('../../assets/images/vector.png')}
-        />
+        <ScrollView horizontal={true}>
+          {listaPesquisa.map((item, index) => (
+            <CardPesquisa key={index} data={item} />
+          ))}
+        </ScrollView>
       </View>
 
       <View style={{marginTop: 10}}>
@@ -41,8 +60,7 @@ const Home = (props) => {
 
 const styles = StyleSheet.create({
   ListaCard: {
-    height: 160,
-    width: 160
+    height: 160
   },
   SearchView: {
     margin: 20, 

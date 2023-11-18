@@ -23,7 +23,6 @@ const Home = (props) => {
         const pesquisas = [];
 
         snapshot.forEach((doc) => {
-          console.log(doc.data());
           pesquisas.push(doc.data());
         });
         

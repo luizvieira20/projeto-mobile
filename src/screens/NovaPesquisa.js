@@ -5,7 +5,7 @@ import DatePicker from 'react-native-date-picker';
 import { collection, addDoc } from "firebase/firestore";
 import { db } from '../firebase/config';
 
-const NovaPesquisa = () => {
+const NovaPesquisa = (props) => {
   const [nome, setNome] = useState('');
   const [data, setData] = useState(new Date());
   const [texto, setTexto] = useState('');
@@ -29,6 +29,8 @@ const NovaPesquisa = () => {
       .catch((error) => {
         console.log("Erro: "+ error);
       })
+    
+    props.navigation.pop();
   }
 
   const validaDados = () => {

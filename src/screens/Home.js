@@ -23,7 +23,10 @@ const Home = (props) => {
         const pesquisas = [];
 
         snapshot.forEach((doc) => {
-          pesquisas.push(doc.data());
+          pesquisas.push({
+            id: doc.id,
+            ...doc.data()
+          })
         });
         
         setListaPesquisa(pesquisas);

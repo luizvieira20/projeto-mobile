@@ -4,24 +4,52 @@ import { TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-date-picker';
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { db } from '../firebase/config';
 
 const ModificarPesquisa = ({route}) => {
-  const {nome, imagem} = route.params;
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
-  const [date, setData] = useState(new Date('2024-02-16 01:01:01'));
+  const [date, setData] = useState(new Date(route.params.docData));
+  const [novoNome, setNovoNome] = useState(route.params.docNome);
   const [open, setOpen] = useState(false);
 
-  const goHome = () => {
+  const id = route.params.docId;
+
+  const goApaga = () => {
     setModalVisible(!modalVisible)
-    navigation.navigate('DrawerNavigator');
+
+    deleteDoc(doc(db, "Pesquisas", id))
+    .then(() => {
+      console.log("Pesquisa apagada com sucesso");
+      navigation.navigate('DrawerNavigator');
+    })
+    .catch((error) => {
+      console.log("Erro ao apagar pesquisa: "+ error);
+    })
   }
+
+  const goAtualiza = () => {
+    const pesq = doc(db, "Pesquisas", id);
+
+    updateDoc(pesq, {
+      Nome: novoNome,
+      Data: date
+    })
+    .then(() => {
+      console.log("Pesquisa alterada com sucesso");
+      navigation.navigate('DrawerNavigator');
+    })
+    .catch((error) => {
+      console.log("Erro ao alterar pesquisa: "+ error);
+    })
+  }
+
   const getDateString = (date) =>{
     return date.getDate().toString() + '/' + ((date.getMonth()+1).toString()) + '/' + date.getFullYear().toString() // nao estava coletando o mes certo sem o +1
-}
+  }
   
   return (
-     
     <View style={styles.View}>
 
       <View style={{flex: 1, marginTop: 30}}>
@@ -32,7 +60,7 @@ const ModificarPesquisa = ({route}) => {
                     <Text style={styles.TextModal}>Tem certeza de apagar essa pesquisa?</Text>
 
                     <View style={styles.View3}>
-                        <TouchableOpacity onPress={goHome}
+                        <TouchableOpacity onPress={goApaga}
                          style={styles.ButtonModal1}>
                              <Text style={styles.TextButton}>SIM</Text>
                         </TouchableOpacity>
@@ -49,7 +77,7 @@ const ModificarPesquisa = ({route}) => {
       <View>
         <View style={ {marginTop: -30} }>
         <Text style={styles.Text}>Nome</Text>
-        <TextInput style={styles.TextInput2} value={nome}/>
+        <TextInput style={styles.TextInput2} value={novoNome} onChangeText={setNovoNome}/>
     
         </View>
 
@@ -76,14 +104,14 @@ const ModificarPesquisa = ({route}) => {
 
         <TouchableOpacity style={styles.ButtonImg}>
         <Image 
-            source={imagem}
+            
             style={styles.imageStyle} 
           /> 
           </TouchableOpacity>
         </View>
 
         <View style={styles.View3}>
-          <TouchableOpacity style={styles.Button}>
+          <TouchableOpacity style={styles.Button} onPress={goAtualiza}>
             <Text style={styles.TextButton}>SALVAR</Text>
           </TouchableOpacity>
 

@@ -1,17 +1,24 @@
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native'
-
+import { useEffect } from 'react';
 
 const AcoesPesquisa = ({route}) => {
-    const { nome, imagem } = route.params;
     const navigation = useNavigation()
+
+    const docId = route.params.data.id;
+    const docNome = route.params.data.Nome;
+    const docData = route.params.data.Data.toDate();
+
+    useEffect(() => {
+        navigation.setOptions({ headerTitle: docNome });
+    }, []);
 
     const goRelatorio = () => {
         navigation.navigate('Relatorio')
     }
     const goModificar = () => {
-        navigation.navigate('ModificarPesquisa', {nome, imagem})
+        navigation.navigate('ModificarPesquisa', {docId, docNome, docData})
     }
     
     const goColeta = () => {

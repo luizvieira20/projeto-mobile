@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 
 const AgradecimentoParticipacao = (props) => {
 
@@ -7,8 +7,8 @@ const AgradecimentoParticipacao = (props) => {
         const timer = setTimeout(() => {
             props.navigation.navigate('Coleta')
         }, 3000)
-        
-        return () => clearTimeout(timer)
+
+        return () => props.navigation.navigate('Home');
     }, [props])
 
     return (
@@ -19,6 +19,7 @@ const AgradecimentoParticipacao = (props) => {
             </View>
         </View>
     )
+
 }
 
 const styles = StyleSheet.create({

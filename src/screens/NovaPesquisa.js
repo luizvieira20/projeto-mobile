@@ -3,7 +3,9 @@ import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
 import { collection, addDoc } from "firebase/firestore";
-import { db } from '../firebase/config';
+import { db, storage } from '../firebase/config';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 
 const NovaPesquisa = (props) => {
   const [nome, setNome] = useState('');
@@ -11,24 +13,65 @@ const NovaPesquisa = (props) => {
   const [texto, setTexto] = useState('');
   const [open, setOpen] = useState(false);
   const PesqCollection = collection(db, "Pesquisas");
+  const [urlFoto, setUrlFoto] = useState('');
+  const [foto, setFoto] = useState()
   
   const getDateString = (date) =>{
     return date.getDate().toString() + '/' + ((date.getMonth()+1).toString()) + '/' + date.getFullYear().toString();
   }
+  const capturarImagem = () =>{
+    launchCamera({mediaType: 'photo', cameraType: 'back', quality: 1})
+      .then(
+        (result) =>{
+          setUrlFoto(result.assets[0].uri)
+          setFoto(result.assets[0])
+        }
+    )
+    .catch(
+      (error) => {
+        console.log("Erro ao capturar imagem: " + JSON.stringify(error))
+      }
+    )
+  }
 
-  const addPesquisa = () => {
-    const docPesquisa = {
-      Nome: nome,
-      Data: data
-    }
+  const addPesquisa = async () => {
 
-    addDoc(PesqCollection, docPesquisa)
-      .then((docRef) => {
-        console.log("Documento inserido com sucesso: "+ docRef.id)
-      })
-      .catch((error) => {
-        console.log("Erro: "+ error);
-      })
+    const imageRef = ref(storage, "images/"+nome+".jpeg")
+    const file = await fetch(urlFoto)
+    const blob = await file.blob()
+    uploadBytes(imageRef, blob, { contentType: 'image/jpeg' })
+      .then(
+        () => {
+          console.log("Enviado com sucesso")
+          getDownloadURL(imageRef)
+            .then(
+              (url)=> {
+                const docPesquisa = {
+                  Nome: nome,
+                  Data: data,
+                  imageUrl: url
+                }
+                addDoc(PesqCollection, docPesquisa)
+                .then((docRef) => {
+                  console.log("Documento inserido com sucesso: "+ docRef.id)
+                })
+                .catch((error) => {
+                  console.log("Erro: "+ error);
+                })
+              }
+            )
+            .catch(
+              (error) => {
+                console.log("Erro ao pegar url: " + JSON.stringify(error))
+              }
+            )
+        }
+      )
+      .catch(
+        (error) => {
+          console.log("Erro ao enviar arquivo: " + JSON.stringify(error))
+        }
+      )
     
     props.navigation.pop();
   }
@@ -69,10 +112,17 @@ const NovaPesquisa = (props) => {
 
       <Text style={styles.Text}>Imagem</Text>
       <View style={styles.View2}>
-
-      <TouchableOpacity style={styles.ButtonImg}>
+      <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity style={styles.ButtonImg} onPress={() => {capturarImagem()}}>
           <Text style={styles.TextButtonImg}>Câmera/Galeria de Imagens</Text>
         </TouchableOpacity>
+        {
+          urlFoto ?
+            <Image source={{uri : urlFoto}} style={{height: 45, width: 45, marginLeft: 5}}/>
+            :
+            null
+        }
+      </View>
       </View>
 
         <View>

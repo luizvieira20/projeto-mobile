@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const CardPesquisa = ({data}) => {
   const navigation = useNavigation();
+  const urlImagem = data.urlImagem
 
   const nome = data.Nome;
   const datas = data.Data.toDate();
@@ -19,7 +20,7 @@ const CardPesquisa = ({data}) => {
   return (
     <TouchableOpacity onPress={goAcoesPesquisa}>
     <Card style={styles.Card}>
-      <Card.Cover style={styles.CardImage} />
+      <Card.Cover style={styles.CardImage} source={{uri: urlImagem}}/>
       <Card.Content style={{height: 60, width: 160, justifyContent: 'center', marginTop: 5}}>
         <Title style={styles.Title}>{nome}</Title>
         <Paragraph style={{fontSize: 11, textAlign: 'center'}}>{getDateString(datas)}</Paragraph>

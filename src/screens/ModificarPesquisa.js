@@ -5,7 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-date-picker';
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from '../firebase/config';
+import { db, storage } from '../firebase/config';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 
 const ModificarPesquisa = ({route}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -13,6 +15,23 @@ const ModificarPesquisa = ({route}) => {
   const [date, setData] = useState(new Date(route.params.docData));
   const [novoNome, setNovoNome] = useState(route.params.docNome);
   const [open, setOpen] = useState(false);
+  const [urlFoto, setUrlFoto] = useState('');
+  const [foto, setFoto] = useState()
+
+  const capturarImagem = () =>{
+    launchCamera({mediaType: 'photo', cameraType: 'back', quality: 1})
+      .then(
+        (result) =>{
+          setUrlFoto(result.assets[0].uri)
+          setFoto(result.assets[0])
+        }
+    )
+    .catch(
+      (error) => {
+        console.log("Erro ao capturar imagem: " + JSON.stringify(error))
+      }
+    )
+  }
 
   const id = route.params.docId;
 
@@ -29,20 +48,40 @@ const ModificarPesquisa = ({route}) => {
     })
   }
 
-  const goAtualiza = () => {
+  const goAtualiza = async () => {
     const pesq = doc(db, "Pesquisas", id);
+    const imageRef = ref(storage, "images/"+novoNome+".jpeg")
+    const file = await fetch(urlFoto)
+    const blob = await file.blob()
+    uploadBytes(imageRef, blob, { contentType: 'image/jpeg' })
+      .then(
+        () => {
+          console.log("Enviado com sucesso")
+          getDownloadURL(imageRef)
+          .then(
+            (url) => {
+              updateDoc(pesq, {
+                Nome: novoNome,
+                Data: date,
+                imageUrl: url
+              })
+              .then(() => {
+                console.log("Pesquisa alterada com sucesso");
+                navigation.navigate('DrawerNavigator');
+              })
+              .catch((error) => {
+              console.log("Erro ao alterar pesquisa: "+ error);
+              })
+            }
+          )
+        }
+      )
+      .catch(
+        (error) => {
+          console.log("Erro ao enviar arquivo: " + JSON.stringify(error))
+        }
+      )
 
-    updateDoc(pesq, {
-      Nome: novoNome,
-      Data: date
-    })
-    .then(() => {
-      console.log("Pesquisa alterada com sucesso");
-      navigation.navigate('DrawerNavigator');
-    })
-    .catch((error) => {
-      console.log("Erro ao alterar pesquisa: "+ error);
-    })
   }
 
   const getDateString = (date) =>{
@@ -102,12 +141,19 @@ const ModificarPesquisa = ({route}) => {
         <Text style={styles.Text}>Imagem</Text>
         <View style={styles.View2}>
 
-        <TouchableOpacity style={styles.ButtonImg}>
-        <Image 
-            
-            style={styles.imageStyle} 
+          <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity style={styles.ButtonImg} onPress={() => {capturarImagem()}}>
+          <Image            
+              style={styles.imageStyle} 
           /> 
           </TouchableOpacity>
+          {
+          urlFoto ?
+            <Image source={{uri : urlFoto}} style={{height: 45, width: 45, marginLeft: 5}}/>
+            :
+            null
+        }
+          </View>
         </View>
 
         <View style={styles.View3}>

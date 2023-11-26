@@ -8,6 +8,8 @@ const AcoesPesquisa = ({route}) => {
 
     const docId = route.params.data.id;
     const docNome = route.params.data.Nome;
+    const docImagem = route.params.data.Imagem;
+    const docDados = route.params.data.Dados;
     const docData = route.params.data.Data.toDate();
 
     useEffect(() => {
@@ -18,11 +20,11 @@ const AcoesPesquisa = ({route}) => {
         navigation.navigate('Relatorio')
     }
     const goModificar = () => {
-        navigation.navigate('ModificarPesquisa', {docId, docNome, docData})
+        navigation.navigate('ModificarPesquisa', {docId, docNome, docData, docImagem})
     }
     
     const goColeta = () => {
-        navigation.navigate('Coleta')
+        navigation.navigate('Coleta', {docNome, docId, docDados})
     }
 
     return (

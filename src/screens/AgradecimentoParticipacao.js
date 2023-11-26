@@ -1,15 +1,17 @@
 import { useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
 
-const AgradecimentoParticipacao = (props) => {
+const AgradecimentoParticipacao = () => {
+    const navigation = useNavigation();
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            props.navigation.navigate('Coleta')
+            navigation.pop();
         }, 3000)
         
         return () => clearTimeout(timer)
-    }, [props])
+    }, [])
 
     return (
         <View style={styles.View}>  

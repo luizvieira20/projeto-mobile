@@ -2,7 +2,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Home from './Home';
-import auth_mod from '../firebase/config';
+import { auth_mod } from '../firebase/config';
 import { signOut } from 'firebase/auth';
 
 const Drawer = createDrawerNavigator();
@@ -24,7 +24,7 @@ const DrawerNavigator = (props) => {
     return (
       <View style={styles.Tela}>
         <View style={styles.Drawer}>
-          <Text style={styles.Text}>usuario@dominio.com</Text>
+          <Text style={styles.Text}></Text>
           <View style={styles.Linha}></View>
           <TouchableOpacity style={styles.BotaoPesquisa} onPress={() => props.navigation.closeDrawer()}><Icon name="file-text-o" size={25} color={'white'}/><Text style={styles.TextBotao}>Pesquisas</Text></TouchableOpacity>
         </View>

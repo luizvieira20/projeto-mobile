@@ -4,8 +4,10 @@ import { TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-date-picker';
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from '../firebase/config';
+import { deleteDoc, doc, updateDoc} from "firebase/firestore";
+import { ref, deleteObject, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from '../firebase/config';
+import { launchCamera } from 'react-native-image-picker';
 
 const ModificarPesquisa = ({route}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -13,37 +15,83 @@ const ModificarPesquisa = ({route}) => {
   const [date, setData] = useState(new Date(route.params.docData));
   const [novoNome, setNovoNome] = useState(route.params.docNome);
   const [open, setOpen] = useState(false);
+  const [urlFoto, setUrlFoto] = useState(route.params.docImagem);
 
   const id = route.params.docId;
+  const imagem = route.params.docImagem;
+
+  const tirarFoto = () => {
+    launchCamera({mediaType: 'photo', cameraType: 'back', quality: 1 })
+      .then((result) => {
+        setUrlFoto(result.assets[0].uri);
+      })
+      .catch((error) => {
+        console.log("Erro ao salvar imagem: " + JSON.stringify(error));
+      })
+  }
 
   const goApaga = () => {
-    setModalVisible(!modalVisible)
+    setModalVisible(!modalVisible);
+
+    const imgRef = ref(storage, imagem);
+
+    deleteObject(imgRef).then(() => {
+      console.log("Imagem apagada com sucesso");
+    }).catch((error) => {
+      console.log("Erro ao apagar imagem:"+ error);
+    });
 
     deleteDoc(doc(db, "Pesquisas", id))
     .then(() => {
       console.log("Pesquisa apagada com sucesso");
-      navigation.navigate('DrawerNavigator');
+      navigation.navigate("DrawerNavigator");
     })
     .catch((error) => {
       console.log("Erro ao apagar pesquisa: "+ error);
     })
   }
 
-  const goAtualiza = () => {
+  const goAtualiza = async() => {
     const pesq = doc(db, "Pesquisas", id);
+    const imgRef = ref(storage, imagem);
+    const imageRef = ref(storage, "images/"+novoNome+".jpeg");
+    const file = await fetch(urlFoto);
+    const blob = await file.blob();
 
-    updateDoc(pesq, {
-      Nome: novoNome,
-      Data: date
-    })
-    .then(() => {
-      console.log("Pesquisa alterada com sucesso");
-      navigation.navigate('DrawerNavigator');
-    })
-    .catch((error) => {
-      console.log("Erro ao alterar pesquisa: "+ error);
-    })
-  }
+    deleteObject(imgRef).then(() => {
+      console.log("Imagem apagada com sucesso");
+    }).catch((error) => {
+      console.log("Erro ao apagar imagem:"+ error);
+    });
+  
+    uploadBytes(imageRef, blob, { contentType: "image/jpeg"})
+        .then(() => {
+          console.log("Imagem inserida com sucesso");
+          getDownloadURL(imageRef)
+            .then((url) => {
+              updateDoc(pesq, {
+                Nome: novoNome,
+                Data: date,
+                Imagem: url
+              })
+              .then(() => {
+                console.log("Pesquisa alterada com sucesso");
+                navigation.navigate('DrawerNavigator');
+              })
+              .catch((error) => {
+                console.log("Erro ao alterar pesquisa: "+ error);
+              })
+            })
+            .catch((error) => {
+              console.log("Erro: " + JSON.stringify(error));
+            })
+        })
+        .catch((error) => {
+          console.log("Erro: "+ error);
+        })
+      
+      navigation.pop();
+    }
 
   const getDateString = (date) =>{
     return date.getDate().toString() + '/' + ((date.getMonth()+1).toString()) + '/' + date.getFullYear().toString() // nao estava coletando o mes certo sem o +1
@@ -102,11 +150,8 @@ const ModificarPesquisa = ({route}) => {
         <Text style={styles.Text}>Imagem</Text>
         <View style={styles.View2}>
 
-        <TouchableOpacity style={styles.ButtonImg}>
-        <Image 
-            
-            style={styles.imageStyle} 
-          /> 
+        <TouchableOpacity style={styles.ButtonImg} onPress={tirarFoto}>
+            <Image source={{uri: urlFoto}} style={{width: 40, height: 40}}/>
           </TouchableOpacity>
         </View>
 

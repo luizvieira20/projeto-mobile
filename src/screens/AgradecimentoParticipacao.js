@@ -21,6 +21,7 @@ const AgradecimentoParticipacao = () => {
             </View>
         </View>
     )
+
 }
 
 const styles = StyleSheet.create({

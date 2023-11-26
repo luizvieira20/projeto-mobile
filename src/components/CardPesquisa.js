@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const CardPesquisa = ({data}) => {
   const navigation = useNavigation();
+  const urlImagem = data.urlImagem
 
   const nome = data.Nome;
   const datas = data.Data.toDate();

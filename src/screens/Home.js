@@ -25,7 +25,8 @@ const Home = (props) => {
         snapshot.forEach((doc) => {
           pesquisas.push({
             id: doc.id,
-            ...doc.data()
+            ...doc.data(),
+            urlImagem: doc.data().imageUrl
           })
         });
         

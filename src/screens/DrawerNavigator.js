@@ -2,7 +2,6 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Home from './Home';
-import auth_mod from '../firebase/config';
 import { getAuth, signOut } from "firebase/auth";
 
 const Drawer = createDrawerNavigator();

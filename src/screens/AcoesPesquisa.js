@@ -17,7 +17,7 @@ const AcoesPesquisa = ({route}) => {
     }, []);
 
     const goRelatorio = () => {
-        navigation.navigate('Relatorio')
+        navigation.navigate('Relatorio', {docDados})
     }
     const goModificar = () => {
         navigation.navigate('ModificarPesquisa', {docId, docNome, docData, docImagem})

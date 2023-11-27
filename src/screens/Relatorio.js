@@ -1,9 +1,43 @@
-import { View, StyleSheet, Image, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
+import { PieChart } from 'react-native-svg-charts';
 
-const Relatorio = () => {
+const Relatorio = ({route}) => {
+    const data = [
+        {
+            key: 1,
+            value: route.params.docDados.Pessimo,
+            svg: { fill: '#53D8D8' },
+            arc: { outerRadius: '125%', cornerRadius: 10 }
+        },
+        {
+            key: 2,
+            value: route.params.docDados.Ruim,
+            svg: { fill: '#EA7288' }
+        },
+        {
+            key: 3,
+            value: route.params.docDados.Neutro,
+            svg: { fill: '#5FCDA4' }
+        },
+        {
+            key: 4,
+            value: route.params.docDados.Bom,
+            svg: { fill: '#6994FE' }
+        },
+        {
+            key: 5,
+            value: route.params.docDados.Excelente,
+            svg: { fill: '#F1CE7E' }
+        }
+    ]
     return (
         <View style={styles.View}>
-            <Image style={styles.Imagem} source = { require ('../../assets/images/grafico.png') }/>
+            <PieChart
+                style={{ height: 280, width: 280}}
+                outerRadius={'80%'}
+                innerRadius={5}
+                data={data}
+            />
             <View style={styles.ViewLinha}>
                 <View style = {styles.ViewColuna}>
                     <Text style={{backgroundColor: '#F1CE7E', width: 13, marginTop: 5, height: 13, alignContent: 'center'}}></Text>
@@ -28,18 +62,19 @@ const styles = StyleSheet.create({
     View: {
         backgroundColor: '#372775',
         flexDirection: 'row',
-        flexWrap: 'wrap',
+        flexWrap: 'nowrap',
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent: 'center'
     },
 
     ViewColuna: {
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
 
     ViewLinha: {
         flexDirection: 'row',
+        marginLeft: 30
     },
 
     Text: {
@@ -49,14 +84,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 15
-      },
-
-    Imagem: {
-        justifyContent: 'center',
-        height: 270,
-        width: 270,
-        marginRight: 30
-    }
+      }
 });
 
 export default Relatorio;

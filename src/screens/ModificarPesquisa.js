@@ -151,15 +151,8 @@ const ModificarPesquisa = ({route}) => {
         <View style={styles.View2}>
 
         <TouchableOpacity style={styles.ButtonImg} onPress={tirarFoto}>
-            <Image source={{uri: urlFoto}} style={{width: 40, height: 40}}/>
-          </TouchableOpacity>
-          {
-          urlFoto ?
-            <Image source={{uri : urlFoto}} style={{height: 45, width: 45, marginLeft: 5}}/>
-            :
-            null
-        }
-          </View>
+          <Image source={{uri: urlFoto}} style={{width: 40, height: 40}}/>
+        </TouchableOpacity>
         </View>
 
         <View style={styles.View3}>

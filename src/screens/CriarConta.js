@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import {getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import auth_mod from '../firebase/config';
+import {createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth_mod } from '../firebase/config';
 
 const CriarConta = () => {
   const [email, setEmail] = useState('');
@@ -19,9 +19,8 @@ const CriarConta = () => {
     else cadastrarUsuario();
   } 
 
-  const auth = getAuth();
   const cadastrarUsuario = () => {
-    createUserWithEmailAndPassword(auth, email, senha)
+    createUserWithEmailAndPassword(auth_mod, email, senha)
       .then((userCredential) => {
         console.log("Usuário criado com sucesso: "+ userCredential);
         setTexto("Usuário criado com sucesso!");

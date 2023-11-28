@@ -19,5 +19,5 @@ const auth_mod = getAuth(app);
 const storage = getStorage(app);
 
 export {storage};
-export{auth_mod};
+export {auth_mod};
 export {db};

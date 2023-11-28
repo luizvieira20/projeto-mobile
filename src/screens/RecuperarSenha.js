@@ -1,8 +1,8 @@
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { TextInput } from 'react-native-paper';
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-const auth = getAuth();
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth_mod } from '../firebase/config';
 
 const RecuperarSenha = () => {
     const [texto, setTexto] = useState('');
@@ -10,7 +10,7 @@ const RecuperarSenha = () => {
 
     const recoveryPassword = () => {
 
-        sendPasswordResetEmail(auth, email)
+        sendPasswordResetEmail(auth_mod, email)
         .then(() => {
           console.log("E-mail enviado com sucesso");
           setEmail("");
@@ -22,18 +22,6 @@ const RecuperarSenha = () => {
           if(error.code === "auth/missing-email" || error.code === "auth/invalid-email") setTexto("Digite um e-mail válido");
   
         });
-
-        /*
-        sendPasswordResetEmail(auth_mod, email)
-            .then(() => {
-                console.log("E-mail enviado com sucesso");
-                setEmail("");
-                setTexto("E-mail enviado com sucesso");
-            })
-            .catch((error) => {
-                console.log("Erro: "+error);
-                if(error.code === "auth/missing-email" || error.code === "auth/invalid-email") setTexto("Digite um e-mail válido");
-            })*/
     }
 
     return (

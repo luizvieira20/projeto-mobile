@@ -7,6 +7,7 @@ import { collection, onSnapshot, query } from "firebase/firestore";
 import { db } from '../firebase/config.js';
 
 const Home = (props) => {
+
   const [txtPesquisa, setPesquisa] = useState('')
   const [listaPesquisa, setListaPesquisa] = useState([]);
 
@@ -23,6 +24,7 @@ const Home = (props) => {
         const pesquisas = [];
 
         snapshot.forEach((doc) => {
+
           pesquisas.push({
             id: doc.id,
             ...doc.data(),

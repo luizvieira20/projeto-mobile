@@ -8,17 +8,21 @@ import { deleteDoc, doc, updateDoc} from "firebase/firestore";
 import { ref, deleteObject, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from '../firebase/config';
 import { launchCamera } from 'react-native-image-picker';
+import { useSelector } from 'react-redux';
 
-const ModificarPesquisa = ({route}) => {
+const ModificarPesquisa = () => {
+
+  const data = useSelector((state) => state.pesquisa.docData); 
+  const nome = useSelector((state) => state.pesquisa.docNome);
+  const id = useSelector((state) => state.pesquisa.docId);  
+  const imagem = useSelector((state) => state.pesquisa.docImagem); 
+
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
-  const [date, setData] = useState(new Date(route.params.docData));
-  const [novoNome, setNovoNome] = useState(route.params.docNome);
+  const [date, setData] = useState(new Date(data));
+  const [novoNome, setNovoNome] = useState(nome);
   const [open, setOpen] = useState(false);
-  const [urlFoto, setUrlFoto] = useState(route.params.docImagem);
-
-  const id = route.params.docId;
-  const imagem = route.params.docImagem;
+  const [urlFoto, setUrlFoto] = useState(imagem);
 
   const tirarFoto = () => {
     launchCamera({mediaType: 'photo', cameraType: 'back', quality: 1 })

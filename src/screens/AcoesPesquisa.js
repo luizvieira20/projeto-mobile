@@ -2,8 +2,11 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native'
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { reducerSetPesquisa } from '../redux/pesquisaSlice';
 
 const AcoesPesquisa = ({route}) => {
+    const dispatch = useDispatch()
     const navigation = useNavigation()
 
     const docId = route.params.data.id;
@@ -12,19 +15,21 @@ const AcoesPesquisa = ({route}) => {
     const docDados = route.params.data.Dados;
     const docData = route.params.data.Data.toDate();
 
+    dispatch(reducerSetPesquisa({docNome: docNome, docDados: docDados, docId: docId, docImagem:docImagem,docData: docData}))
+
     useEffect(() => {
         navigation.setOptions({ headerTitle: docNome });
     }, []);
 
     const goRelatorio = () => {
-        navigation.navigate('Relatorio', {docDados})
+        navigation.navigate('Relatorio')
     }
     const goModificar = () => {
-        navigation.navigate('ModificarPesquisa', {docId, docNome, docData, docImagem})
+        navigation.navigate('ModificarPesquisa')
     }
     
     const goColeta = () => {
-        navigation.navigate('Coleta', {docNome, docId, docDados})
+        navigation.navigate('Coleta')
     }
 
     return (

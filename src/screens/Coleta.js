@@ -3,16 +3,18 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from '../firebase/config';
+import { useSelector } from 'react-redux';
 
-const Coleta = ({route}) => {
+const Coleta = () => {
     const navigation = useNavigation();
-    const id = route.params.docId;
-
-    let pessimo = route.params.docDados.Pessimo;
-    let ruim = route.params.docDados.Ruim;
-    let neutro = route.params.docDados.Neutro;
-    let bom = route.params.docDados.Bom;
-    let excelente = route.params.docDados.Excelente;
+    const id = useSelector((state) => state.pesquisa.docId); 
+    const nome = useSelector((state) => state.pesquisa.docNome); 
+    const dados = useSelector((state) => state.pesquisa.docDados); 
+    let pessimo = dados.Pessimo;
+    let ruim = dados.Ruim;
+    let neutro = dados.Neutro;
+    let bom = dados.Bom;
+    let excelente = dados.Excelente;
 
     const pesq = doc(db, "Pesquisas", id);
 
@@ -98,7 +100,7 @@ const Coleta = ({route}) => {
                 </TouchableOpacity> 
             </View>    
             <View style={styles.ViewTexto}>
-                <Text style = {styles.Texto}>O que você achou do {route.params.docNome}?</Text>
+                <Text style = {styles.Texto}>O que você achou do {nome}?</Text>
             </View>
             <View style={styles.View2}>
                 <TouchableOpacity style={styles.Button} onPress={incPessimo}>

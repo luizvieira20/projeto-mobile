@@ -1,32 +1,34 @@
 import { View, StyleSheet, Text } from 'react-native';
 import { PieChart } from 'react-native-svg-charts';
+import { useSelector } from 'react-redux';
 
-const Relatorio = ({route}) => {
+const Relatorio = () => {
+    const dados = useSelector((state) => state.pesquisa.docDados); 
     const data = [
         {
             key: 1,
-            value: route.params.docDados.Pessimo,
+            value: dados.Pessimo,
             svg: { fill: '#53D8D8' },
             arc: { outerRadius: '125%', cornerRadius: 10 }
         },
         {
             key: 2,
-            value: route.params.docDados.Ruim,
+            value: dados.Ruim,
             svg: { fill: '#EA7288' }
         },
         {
             key: 3,
-            value: route.params.docDados.Neutro,
+            value: dados.Neutro,
             svg: { fill: '#5FCDA4' }
         },
         {
             key: 4,
-            value: route.params.docDados.Bom,
+            value: dados.Bom,
             svg: { fill: '#6994FE' }
         },
         {
             key: 5,
-            value: route.params.docDados.Excelente,
+            value: dados.Excelente,
             svg: { fill: '#F1CE7E' }
         }
     ]
